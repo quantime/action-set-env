@@ -1,0 +1,12 @@
+name: 'set-env'
+description: 'Set environment variables from github secrets based on specified deployment environment'
+inputs:
+  branchMap:
+    description: 'Map of branch to environment name'
+    required: false
+  varNames:
+    description: 'List of secrets to populate in the environment. Each secret name should go on a separate line'
+    required: true
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
