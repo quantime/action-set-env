@@ -9,10 +9,10 @@ async function run() {
   const branchMap = getBranchMap()
   const vars = getVarNames()
 
-  const ref = process.env['GITHUB_REF']
-  const env = branchMap[ref]
+  const branch = process.env['GITHUB_REF'].replace('refs/heads/', '')
+  const env = branchMap[branch]
   if (!env) {
-    error(`Branch ${ref} does not exist in branch map: ${JSON.stringify(branchMap)}`)
+    error(`Branch ${branch} does not exist in branch map: ${JSON.stringify(branchMap)}`)
     throw Error('')
   }
 
@@ -21,6 +21,9 @@ async function run() {
     console.log(`Setting $${v} for environment: ${env}`)
     exportVariable(v, s)
   })
+
+  exportVariable('QT_ENVIRONMENT', env)
+  exportVariable('QT_DEPLOY_BRANCH', branch)
 }
 
 run()
